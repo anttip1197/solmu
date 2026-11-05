@@ -1,0 +1,54 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Secrets and local configuration (never commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+local_settings.*
+
+# --- Customer / design data (never commit; see AGENTS.md §7) ---
+*.rvt
+*.rfa
+*.rte
+*.rft
+*.dwg
+*.dxf
+*.ifc
+*.nwc
+*.nwd
+# Revit backups (model.0001.rvt) are covered by *.rvt / *.rfa above.
+/data/
+/datasets/
+# Synthetic, provenance-documented fixtures may be re-included explicitly, e.g.:
+# !tests/fixtures/synthetic/*.dxf
+
+# --- .NET / Revit add-in build output (if a C# add-in is chosen in FND-002) ---
+bin/
+obj/
+*.user
+.vs/
+
+# --- Editors / OS ---
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "heating-ai"
+version = "0.0.1"
+description = "AI-assisted, supervised hydronic radiator heating design for Autodesk Revit 2027."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Proprietary" }
+# Runtime dependencies are intentionally empty. Add only with documented justification (AGENTS.md §3).
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/heating_ai"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+filterwarnings = ["error"]
