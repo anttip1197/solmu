@@ -73,8 +73,11 @@ Vaatimukset tarkennetaan omiin dokumentteihinsa sitä mukaa kuin vastaavat teht�
 | FR-IFC-001 | Lämpöhäviömallista viedään 3D IFC -malli IDA ICE -simulointiin | Must | Omistajan IDA ICE tuo mallin ja muodostaa vyöhykkeet tiloista | Not started | – |
 | FR-IFC-002 | IFC sisältää tilat (suljettu raja, korkeus), seinät, ikkunat, ovet, ylä- ja alapohjat | Must | Skeemavalidointi + oliomäärät vastaavat laskentamallia | Not started | – |
 | FR-IFC-003 | IFC sisältää tilarajat rakennusosiin ja rajautumistiedon (ulko, maa, toinen tila) | Must | Jokaisella laskentamallin rajapinnalla on vastaava `IfcRelSpaceBoundary` | Not started | – |
-| FR-IFC-004 | Rakennusosien U-arvot ja tilojen mitoitusarvot viedään ominaisuusjoukkoina | Should | Arvot ja yksiköt vastaavat laskentamallia | Not started | – |
+| FR-IFC-004 | Rakennusosien U-arvot ja tilojen mitoitusarvot viedään ominaisuusjoukkoina (IDA ICE ei lue niitä, EQUA 2025; muita ohjelmia varten) | Could | Arvot ja yksiköt vastaavat laskentamallia | Not started | – |
 | FR-IFC-005 | Vienti sisältää asiantuntijan muutokset ja toimii myös DXF-lähtöisille malleille | Must | Testi: muutettu U-arvo näkyy IFC:ssä | Not started | – |
+| FR-IFC-006 | Vienti täyttää IDA ICE:n IFC-tuonnin vaatimukset (yksi kerros per elementti, ulko-/sisäseinäluokitus, rakennetyypit, ikkunat aukoissa, leikkaamattomat nimetyt tilat, ADDENDUM-0003 §6) | Must | Automaattinen tarkistus viennin jälkeen + omistajan tuontitesti | Not started | – |
+| FR-IFC-007 | Rakennetyyppien nimet johdonmukaisesti laskentamallin rakenteista (IDA:n mapping) | Must | Sama rakenne → sama nimi; nimi sisältää tunnisteen ja U-arvon | Not started | – |
+| FR-IFC-008 | IFC:n rinnalle vyöhyketaulukko (lämpötilat, ilmavirrat, rakenteet) IDA-syöttöä varten | Could | Omistaja päättää tarpeen | Not started | – |
 | FR-GEO-006 | Huonemalli säilyttää 3D-geometrian, rakennusosat ja tilarajat (IFC-viennin ja lämpöhäviölaskennan yhteinen perusta) | Must | Tietomalli tukee ADDENDUM-0003 §3:n rakenteita | Not started | – |
 
 ## Lämmityssuunnittelu (FR-HTG)

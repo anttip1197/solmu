@@ -15,7 +15,9 @@ tai DXF:stä (ADDENDUM-0001), ja asiantuntija voi muuttaa sen arvoja (U-arvot, m
 
 1. IFC muodostetaan **järjestelmän omasta huonemallista** Python-palvelussa, ei Revitin IFC-viennillä.
    Perusteet: vientiin tulevat myös asiantuntijan muutokset, ja vienti toimii myös DXF-lähtöisille malleille.
-2. Ensisijainen skeema on **IFC4**. IFC2x3 lisätään vain, jos omistajan IDA ICE -versio sitä vaatii.
+2. Skeema on **IFC4** (omistaja vahvisti 2026-11-07).
+   Vienti noudattaa EQUAn dokumentoimia IDA ICE:n tuontivaatimuksia (ADDENDUM-0003 §6). IDA ICE lukee IFC:stä geometrian,
+   tilojen nimet, rakennetyypit ja ulko-/sisäseinäluokituksen, mutta ei U-arvoja tai mitoitusarvoja.
 3. Toteutukseen käytetään **IfcOpenShell**-kirjastoa (Python, LGPL-3.0). Se on ensimmäinen ajonaikainen
    riippuvuus, joten se perustellaan erikseen. IFC:n (STEP) kirjoittaminen käsin olisi virhealtista, ja
    kirjasto osaa myös validoida tuotoksen. Lisenssin soveltuvuus tarkistetaan ennen käyttöönottoa.

@@ -51,12 +51,58 @@ tuloksia. Tämä otetaan huomioon jo GEO-tehtävissä:
 
 Ominaisuusjoukkojen nimet tarkistetaan IFC4-dokumentaatiosta ennen toteutusta.
 
-## 5. Avoimet kysymykset omistajalle
+## 5. Omistajan vastaukset 2026-11-07
 
-1. Mikä IDA ICE -versio on käytössä? Riittääkö IFC4, vai tarvitaanko myös IFC2x3?
-2. Tarkoititko "RUU-mallilla" huonemallia, vai onko se oma termi tai ohjelma?
-3. Lukeeko IDA ICE teidän työnkulussanne IFC:stä vain geometrian, vai myös U-arvot, lämpötilat ja ilmavirrat?
-   Vai syötetäänkö ne IDA:ssa erikseen?
-4. Voitko testata vientiä omalla IDA ICE:lläsi, kun ensimmäinen versio on valmis (synteettinen esimerkkirakennus)?
-5. Pitääkö viennin toimia myös DXF-lähtöisestä mallista, jossa Revit-mallia ei ole?
-   (Vaikuttaa ADR-0006:n vaihtoehtoon.)
+1. Skeema: **IFC4**.
+2. "RUU-malli" tarkoitti **room-mallin IFC:tä** (huonemallista vietävää IFC:tä).
+3. IDA ICE:hen tuodaan **geometria ja tilat**. Omistaja pyysi varmistamaan, tuleeko muita tietoja (§6).
+4. DXF-kysymys jäi epäselväksi, ja se kysytään uudelleen (§8).
+5. Omistaja **testaa viennin omalla IDA ICE:llään**.
+
+## 6. Mitä IDA ICE lukee IFC:stä (EQUAn ajantasainen ohje)
+
+Lähde: EQUA, IDA ICE Getting started: *IFC Objects and IFC Geometries* (2025-04-26) ja *IFC in IDA ICE*, sekä
+IDA ICE Help: *Options for IFC import*, *IFC mapping* (equa.cloud.xwiki.com, luettu 2026-11-07).
+
+| IFC-olio | IDA ICE:n tuomat ominaisuudet |
+|---|---|
+| `IfcSpace` | Tilan nimi (geometria prismana, vakiokorkeus) |
+| `IfcWall` | Rakennetyyppi (construction type), ulko-/sisäseinäluokitus |
+| `IfcWindow` | Rakennetyyppi |
+| `IfcSlab` | Rakennetyyppi |
+| `IfcDoor` | Geometria (rajoitettu ominaisuustuki) |
+| `IfcCurtainWall` | Yksinkertaistettu geometria |
+
+**Johtopäätös:** IDA ICE **ei tuo IFC:stä U-arvoja, lämpötiloja eikä ilmavirtoja**. Rakennetyypit yhdistetään
+IDA:n omiin rakenteisiin IDA:n mapping-työkalulla, ja vyöhykkeiden lämpötilat ja ilmavirrat tulevat IDA:n
+vyöhykepohjista. Ohjeen mukaan selkeät ja johdonmukaiset rakennetyyppien nimet nopeuttavat mallin valmistelua.
+
+### IFC-tiedoston vaatimukset IDA ICE -tuontia varten (EQUAn ohjeesta)
+
+- Yksiköt määritelty (muunnetaan SI-yksiköiksi). Kerrosten korkeusasemat annettu.
+- Jokainen elementti kuuluu **yhteen kerrokseen**, eikä seinä jatku kerroksesta toiseen.
+- Tiloilla on **selkeä nimi**. Tilat ovat prismoja vakiokorkeudella, eivätkä ne leikkaa toisiaan (leikkaavista tiloista suurempi poistetaan oletuksena).
+- Kerroksen ulkoraja saadaan joko **kerroksen kattavasta "gross space" -tilasta** (oletusasetus) tai ulkoseinistä.
+  Siksi seinät luokitellaan **ulko- tai sisäseiniksi**.
+- Seinät ovat pystysuoria, vakiopaksuisia ja niillä on keskiviiva-akseli. Seinillä, laatoilla ja ikkunoilla on **rakennetyyppi**.
+- Ikkunat ja ovet ovat seinän **aukossa** (opening), ja aukon koordinaatisto vastaa seinää. Aukko on kokonaan seinän sisällä.
+  Erillisiä ikkunoita ei tueta.
+- Katto kattaa kaikki ylimmät kerrokset.
+
+## 7. Tarkennettu vienti (**Ehdotus**)
+
+- Vienti noudattaa §6:n vaatimuksia. Viennin jälkeen ajetaan oma tarkistus, joka testaa ne ennen kuin tiedosto annetaan käyttäjälle.
+- **Rakennetyyppien nimet** muodostetaan laskentamallin rakenteista johdonmukaisesti, esim. `US1 Ulkoseinä U=0,17`,
+  jotta IDA:n mapping on helppo tehdä. Sama rakenne saa aina saman nimen.
+- `IfcSpace`: `Name` = huonenumero, `LongName` = huoneen nimi. Kerroskohtainen gross space lisätään, jos testi IDA ICE:ssä
+  osoittaa sen hyödylliseksi.
+- U-arvot ja mitoitusarvot voidaan silti viedä ominaisuusjoukkoina muita ohjelmia varten. IDA ICE ei niitä lue.
+- **Lisäehdotus:** vienti tuottaa IFC:n rinnalle **vyöhyketaulukon** (tilat, sisälämpötilat, ilmavirrat, rakennetyypit
+  U-arvoineen), jonka avulla arvot on helppo syöttää IDA:n vyöhykepohjiin ja rakenteisiin. Omistaja päättää, tarvitaanko sitä.
+
+## 8. Avoimet kysymykset omistajalle
+
+1. Tarvitaanko vyöhyketaulukko (§7)? Missä muodossa: Excel vai CSV?
+2. (Uudelleen, selkeämmin) Luetaanko lähtötiedot aina Revitistä, vai tuleeko joskus pelkkä arkkitehdin DXF-pohjapiirustus
+   ilman Revit-mallia? Jos jälkimmäinen, IFC on muodostettava kokonaan meidän huonemallistamme. ADR-0006 ehdottaa
+   tätä joka tapauksessa.
