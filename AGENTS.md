@@ -109,12 +109,18 @@ Taustadokumentit:
   geometrian poikkeustilanteet, tietosopimusten validointi, hyväksyntävaatimukset, virhetilanteet,
   uudelleenyritysten turvallisuus – soveltuvin osin.
 
-Testien ajo:
+Tarkistusten ajo (samat kuin CI:ssä, ks. `docs/testing/strategy.md`):
 
 ```bash
 python -m pip install -e ".[dev]"
-python -m pytest
+python tools/check_repo_hygiene.py
+python -m ruff check .
+python -m ruff format --check .
+python -m mypy
+python -m pytest -m "not revit"
 ```
+
+- Revitiä vaativat testit merkitään `@pytest.mark.revit`.
 
 ## 9. Dokumentointi
 

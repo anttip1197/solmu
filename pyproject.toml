@@ -13,8 +13,11 @@ license = { text = "Proprietary" }
 dependencies = []
 
 [project.optional-dependencies]
+# Development and CI tools only (not runtime dependencies), see docs/testing/strategy.md.
 dev = [
     "pytest>=8.0",
+    "ruff>=0.15",
+    "mypy>=1.18",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -25,4 +28,20 @@ minversion = "8.0"
 testpaths = ["tests"]
 addopts = ["-ra", "--strict-markers", "--strict-config"]
 xfail_strict = true
+markers = [
+    "revit: requires a running Autodesk Revit 2027; never run in CI",
+]
 filterwarnings = ["error"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["tools/revit_spike/pyrevit"]  # IronPython 2.7/3.4 code, different language level
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "tools/revit_spike/python_service", "tools/check_repo_hygiene.py"]

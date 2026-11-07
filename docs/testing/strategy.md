@@ -1,6 +1,6 @@
 # Testausstrategia
 
-> Tila: alkuversio (FND-001). CI ja testausrunko tarkentuvat tehtävässä FND-004.
+> Tila: päivitetty FND-004:ssä (CI).
 
 ## Testityypit
 
@@ -30,3 +30,29 @@ C#-harness-testi (`tests/integration/test_csharp_ipc_harness.py`) ohitetaan auto
 Kelvolliset syötteet · virheelliset syötteet · puuttuvat tiedot · yksikkömuunnokset ·
 geometrian poikkeustilanteet · tietosopimusten validointi · hyväksyntävaatimukset ·
 virhetilanteet · uudelleenyritysten turvallisuus.
+
+## Jatkuva integraatio (FND-004)
+
+Työnkulku: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml). Ajetaan jokaisesta pushista ja pull requestista.
+
+| Job | Ympäristö | Tarkistukset |
+|---|---|---|
+| Lint, types, hygiene | Ubuntu, Python 3.12 | `tools/check_repo_hygiene.py`, `ruff check`, `ruff format --check`, `mypy` (strict) |
+| Tests | Ubuntu ja Windows × Python 3.12 ja 3.13, .NET 10 | C#-spiken käännös (myös Revit 2027 -lisäosa referenssikirjastoja vasten), `pytest -m "not revit"` |
+
+- Windows-ajo testaa C#–CPython-stdio-viestinnän Windowsissa (ilman Revitiä).
+- Revitiä vaativat testit merkitään `@pytest.mark.revit`. CI ei aja niitä, eikä Revit-yhteensopivuutta väitetä CI:n perusteella.
+- Hygieniatarkistus estää malli- ja piirustustiedostot (RVT, RFA, DWG, DXF, IFC, PDF ym.), yli 5 Mt:n tiedostot
+  ja tunnistettavat salaisuudet. Synteettiset testiaineistot sallitaan hakemistossa `tests/fixtures/synthetic/`.
+- Kehitystyökalut (`ruff`, `mypy`, `pytest`) ovat vain `dev`-riippuvuuksia, eivät ajonaikaisia.
+
+Samat tarkistukset paikallisesti:
+
+```bash
+python -m pip install -e ".[dev]"
+python tools/check_repo_hygiene.py
+python -m ruff check .
+python -m ruff format --check .
+python -m mypy
+python -m pytest -m "not revit"
+```

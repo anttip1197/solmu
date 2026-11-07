@@ -78,9 +78,7 @@ class SourceReference:
 
     def __post_init__(self) -> None:
         if not isinstance(self.source_type, SourceType):
-            raise TypeError(
-                f"source_type must be SourceType, got {type(self.source_type).__name__}"
-            )
+            raise TypeError(f"source_type must be SourceType, got {type(self.source_type).__name__}")
         _require_non_blank("element_id", self.element_id)
         if self.document_ref is not None:
             _require_non_blank("document_ref", self.document_ref)

@@ -98,7 +98,7 @@ Vaatimukset tarkennetaan omiin dokumentteihinsa sitä mukaa kuin vastaavat teht�
 |---|---|---|---|---|---|
 | NFR-001 | Domain-moduuli on tuotavissa ja testattavissa ilman Revit-asennusta | Must | Testi varmistaa, ettei `heating_ai.domain` tuo Revit-/pyRevit-/`clr`-moduuleja | Verified | `tests/unit/test_domain_isolation.py` |
 | NFR-002 | Revitistä riippumattomat testit ajettavissa ilman Revitiä | Must | `python -m pytest` toimii puhtaassa Python-ympäristössä | Verified | `tests/unit/` |
-| NFR-003 | Ei salaisuuksia tai asiakasaineistoa versionhallinnassa | Must | `.gitignore` estää yleiset aineistotyypit; tarkastus CI:ssä (FND-004) | In progress | – |
+| NFR-003 | Ei salaisuuksia tai asiakasaineistoa versionhallinnassa | Must | `.gitignore` estää yleiset aineistotyypit; tarkastus CI:ssä (FND-004) | Implemented | `tests/unit/test_repo_hygiene.py`, CI-job *Lint, types, hygiene* |
 | NFR-004 | Laskentatulokset ovat toistettavia ja jäljitettäviä (syötteet, yksiköt, menetelmä, versio) | Must | Versioidut laskentasopimukset | Not started | – |
 | NFR-005 | Tilat erotettu: ehdotus luotu / validoitu / hyväksytty / Applied / Verified sekä addendumin geometria- ja laskentatilat | Must | Tilamalli ja siirtymätestit (FND-008) | Not started | – |
 | NFR-007 | Sääntölähteistä käytetään aina uusinta versiota; lähteen versio, korjaukset ja hakupäivä tallennetaan ja ovat osa laskentatulosta | Must | Sääntötaulukossa versio- ja lähdetiedot; versiomuutos näkyy tuloksessa | Not started | – |

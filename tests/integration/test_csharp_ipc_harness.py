@@ -22,9 +22,21 @@ pytestmark = pytest.mark.skipif(shutil.which("dotnet") is None, reason=".NET SDK
 def test_csharp_harness_round_trip() -> None:
     env = {"DOTNET_CLI_TELEMETRY_OPTOUT": "1", "DOTNET_NOLOGO": "1"}
     proc = subprocess.run(
-        ["dotnet", "run", "--project", str(CSHARP / "Solmu.Spike.Harness"), "-c", "Release", "--",
-         sys.executable, str(SERVICE)],
-        capture_output=True, text=True, timeout=600, check=False,
+        [
+            "dotnet",
+            "run",
+            "--project",
+            str(CSHARP / "Solmu.Spike.Harness"),
+            "-c",
+            "Release",
+            "--",
+            sys.executable,
+            str(SERVICE),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=600,
+        check=False,
         env={**os.environ, **env},
     )
     assert proc.returncode == 0, proc.stdout + proc.stderr

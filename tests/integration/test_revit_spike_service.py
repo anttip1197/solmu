@@ -11,7 +11,9 @@ from pathlib import Path
 
 import pytest
 
-SERVICE = Path(__file__).resolve().parents[2] / "tools" / "revit_spike" / "python_service" / "spike_service.py"
+SERVICE = (
+    Path(__file__).resolve().parents[2] / "tools" / "revit_spike" / "python_service" / "spike_service.py"
+)
 
 
 def _request(kind: str, request_id: str = "r1", payload: object | None = None, **overrides: object) -> str:
@@ -22,7 +24,9 @@ def _request(kind: str, request_id: str = "r1", payload: object | None = None, *
     return json.dumps(message)
 
 
-def _run(*lines: str, extra_args: tuple[str, ...] = ()) -> tuple[list[dict], subprocess.CompletedProcess[bytes]]:
+def _run(
+    *lines: str, extra_args: tuple[str, ...] = ()
+) -> tuple[list[dict], subprocess.CompletedProcess[bytes]]:
     stdin = ("\n".join(lines) + "\n").encode("utf-8")
     proc = subprocess.run(
         [sys.executable, "-I", str(SERVICE), *extra_args],
@@ -63,7 +67,9 @@ def test_probe_report_is_acknowledged_and_summarized() -> None:
 
 def test_probe_report_can_be_saved(tmp_path: Path) -> None:
     payload = _probe_payload([{"element_id": 1, "name": "Olohuone ÄÖ", "area_internal": 10.0}])
-    (response,), _ = _run(_request("probe_report", "abc/../x", payload), extra_args=("--out-dir", str(tmp_path)))
+    (response,), _ = _run(
+        _request("probe_report", "abc/../x", payload), extra_args=("--out-dir", str(tmp_path))
+    )
     saved = Path(response["summary"]["saved_to"])
     assert saved.parent == tmp_path  # request id cannot escape the output directory
     assert json.loads(saved.read_text("utf-8")) == payload
