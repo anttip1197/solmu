@@ -7,6 +7,7 @@ Taustadokumentit:
 - [`CODEX_START.md`](CODEX_START.md) – projektin tarkoitus, periaatteet ja alkuperäinen vaiheistus.
 - [`docs/requirements/ADDENDUM-0001-room-modeling-airflow-heat-loss.md`](docs/requirements/ADDENDUM-0001-room-modeling-airflow-heat-loss.md) – huonemallinnus, ilmavirrat ja lämpöhäviöt.
 - [`docs/requirements/ADDENDUM-0002-magicad-heat-loss-airflow.md`](docs/requirements/ADDENDUM-0002-magicad-heat-loss-airflow.md) – MagiCAD, mitoitusolosuhteet, ilmavirrat, ML:n rooli.
+- [`docs/requirements/ADDENDUM-0003-ifc-export-ida-ice.md`](docs/requirements/ADDENDUM-0003-ifc-export-ida-ice.md) – IFC-vienti IDA ICE -simulointiin.
 - [`docs/roadmap/roadmap.md`](docs/roadmap/roadmap.md) – voimassa oleva tehtäväjärjestys.
 - [`docs/requirements/index.md`](docs/requirements/index.md) – vaatimusindeksi.
 - [`docs/decisions/`](docs/decisions/) – ADR-päätökset ja niiden tila.

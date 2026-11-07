@@ -85,6 +85,19 @@ ML:n rooli insinööriarvoissa: ADR-0005.
 | ROOM-005 | Hyväksytty Revit-mallin muutos (patterin vientitapa MAG-001:n mukaan; mitoitus MagiCADissa) | Not started |
 | ROOM-006 | Käyttäjän hyväksymistestit | Not started |
 
+## Vaihe 3b – IFC-vienti IDA ICE:hen (*ehdotus, ADR-0006*)
+
+Edellytys: GEO-vaiheen huonemalli (3D-geometria, rakennusosat, tilarajat) ja CALC-005. Voidaan tehdä
+patterisuunnittelun rinnalla.
+
+| ID | Tehtävä | Tila |
+|---|---|---|
+| IFC-001 | IDA ICE:n IFC-tuonnin vaatimukset omistajan versiolla (testitiedosto) | Not started |
+| IFC-002 | IFC4-vienti: rakennus, kerrokset, tilat, seinät, ikkunat, ovet, laatat | Not started |
+| IFC-003 | Tilarajat (`IfcRelSpaceBoundary`) ja rakennusosien U-arvot | Not started |
+| IFC-004 | Mitoitusarvojen ominaisuusjoukot (lämpötilat, ilmavirrat, lämpöhäviö) | Not started |
+| IFC-005 | Hyväksymistesti: skeemavalidointi + tuonti IDA ICE:en (omistaja) | Not started |
+
 ## Myöhemmät vaiheet
 
 Tehtävä-ID:t määritetään myöhemmin. DXF ja datasetit integroituvat samaan huonedomainiin (ADDENDUM-0001 §9).

@@ -20,6 +20,7 @@ Vaatimukset tarkennetaan omiin dokumentteihinsa sitä mukaa kuin vastaavat teht�
 | `NFR` | Ei-toiminnalliset | Vahvistettu |
 | `FR-GEO` | Geometria ja huoneiden muodostus | **Ehdotus** – odottaa käyttäjän hyväksyntää |
 | `FR-CALC` | Insinöörilaskennat (ilmavirrat, lämpöhäviöt, tehontarve) | **Ehdotus** – odottaa käyttäjän hyväksyntää |
+| `FR-IFC` | IFC-vienti (IDA ICE) | **Ehdotus** – odottaa käyttäjän hyväksyntää |
 
 ## Revit (FR-REV)
 
@@ -64,6 +65,17 @@ Vaatimukset tarkennetaan omiin dokumentteihinsa sitä mukaa kuin vastaavat teht�
 | FR-CALC-018 | Osittain maanalaisen ulkoseinän maanalainen osuus (%) seinäkohtaisesti: maanalainen osa maan lämpötilaa ja maanpäällinen osa ulkoilmaa vasten; molemmilla osilla seinän oma U-arvo | Must | Testi: 50 % → puolet +5 °C ja puolet −26 °C vasten; 0 % ja 100 % rajatapaukset | Not started | – |
 | FR-CALC-010 | Syötearvoilla on lähdetyyppi (model, rule, project_default, expert, ml_estimate); ML-arvoa ei käytetä ilman asiantuntijan hyväksyntää (ADR-0005) | Must | Testi: ml_estimate ei pääse laskentaan hyväksymättä | Not started | – |
 | FR-CALC-011 | Lämpöhäviötuloksia verrataan MagiCAD Roomin tuloksiin testikohteissa osatekijöittäin (omistaja hyväksynyt vertailuaineiston käytön 2026-11-07; aineisto ei repositorioon) | Should | Vertailuraportti; hyväksytyt poikkeamarajat omistajalta | Not started | – |
+
+## IFC-vienti (FR-IFC, ehdotettu etuliite)
+
+| ID | Kuvaus | Prio | Hyväksymiskriteeri | Tila | Testi |
+|---|---|---|---|---|---|
+| FR-IFC-001 | Lämpöhäviömallista viedään 3D IFC -malli IDA ICE -simulointiin | Must | Omistajan IDA ICE tuo mallin ja muodostaa vyöhykkeet tiloista | Not started | – |
+| FR-IFC-002 | IFC sisältää tilat (suljettu raja, korkeus), seinät, ikkunat, ovet, ylä- ja alapohjat | Must | Skeemavalidointi + oliomäärät vastaavat laskentamallia | Not started | – |
+| FR-IFC-003 | IFC sisältää tilarajat rakennusosiin ja rajautumistiedon (ulko, maa, toinen tila) | Must | Jokaisella laskentamallin rajapinnalla on vastaava `IfcRelSpaceBoundary` | Not started | – |
+| FR-IFC-004 | Rakennusosien U-arvot ja tilojen mitoitusarvot viedään ominaisuusjoukkoina | Should | Arvot ja yksiköt vastaavat laskentamallia | Not started | – |
+| FR-IFC-005 | Vienti sisältää asiantuntijan muutokset ja toimii myös DXF-lähtöisille malleille | Must | Testi: muutettu U-arvo näkyy IFC:ssä | Not started | – |
+| FR-GEO-006 | Huonemalli säilyttää 3D-geometrian, rakennusosat ja tilarajat (IFC-viennin ja lämpöhäviölaskennan yhteinen perusta) | Must | Tietomalli tukee ADDENDUM-0003 §3:n rakenteita | Not started | – |
 
 ## Lämmityssuunnittelu (FR-HTG)
 

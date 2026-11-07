@@ -9,6 +9,7 @@ Vain projektin omistaja voi muuttaa tilan `Accepted`-tilaan. Pohja: [ADR-TEMPLAT
 | [ADR-0002](ADR-0002-revit-integration-technology.md) | Revit 2027 -integraatiotekniikka: C#/.NET 10 -lisäosa | Proposed (odottaa Revit-ajoa) | 2026-11-07 |
 | [ADR-0003](ADR-0003-process-boundary-ipc.md) | Prosessien välinen viestintä: lapsiprosessi + JSON-rivit stdion yli | Proposed (odottaa Revit-ajoa) | 2026-11-07 |
 | [ADR-0004](ADR-0004-magicad-role.md) | MagiCAD tuotekirjaston ja mitoituksen auktoriteettina, järjestelmä laskee lämpöhäviön | Proposed | 2026-11-07 |
+| [ADR-0006](ADR-0006-ifc-export.md) | IFC4-vienti omasta huonemallista (IfcOpenShell) IDA ICE:hen | Proposed | 2026-11-07 |
 | [ADR-0005](ADR-0005-ml-in-engineering-values.md) | ML/AI ehdottaa, sääntö tai asiantuntija ratkaisee insinööriarvot | Proposed | 2026-11-07 |
 
 ## Odottavat päätökset
