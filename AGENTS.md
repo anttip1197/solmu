@@ -6,6 +6,7 @@ Tämä tiedosto koskee kaikkia tässä repositoriossa työskenteleviä AI-koodau
 Taustadokumentit:
 - [`CODEX_START.md`](CODEX_START.md) – projektin tarkoitus, periaatteet ja alkuperäinen vaiheistus.
 - [`docs/requirements/ADDENDUM-0001-room-modeling-airflow-heat-loss.md`](docs/requirements/ADDENDUM-0001-room-modeling-airflow-heat-loss.md) – huonemallinnus, ilmavirrat ja lämpöhäviöt.
+- [`docs/requirements/ADDENDUM-0002-magicad-heat-loss-airflow.md`](docs/requirements/ADDENDUM-0002-magicad-heat-loss-airflow.md) – MagiCAD, mitoitusolosuhteet, ilmavirrat, ML:n rooli.
 - [`docs/roadmap/roadmap.md`](docs/roadmap/roadmap.md) – voimassa oleva tehtäväjärjestys.
 - [`docs/requirements/index.md`](docs/requirements/index.md) – vaatimusindeksi.
 - [`docs/decisions/`](docs/decisions/) – ADR-päätökset ja niiden tila.
@@ -70,6 +71,9 @@ Taustadokumentit:
 - Jokainen laskentatulos on jäljitettävissä syötteisiin, lähteisiin, yksiköihin, menetelmään ja menetelmäversioon.
 - Käytä eksplisiittisiä yksiköitä. Älä käytä yksiköttömiä lukuarvoja fysikaalisille suureille rajapinnoissa.
 - Säädösten ja standardien noudattamista ei väitetä ennen kuin menetelmät ja vaatimusversiot on dokumentoitu ja validoitu.
+- MagiCAD on tuotekirjaston ja patterien ja putkiston mitoituksen auktoriteetti (ADR-0004, Proposed): älä toteuta omaa
+  patterirekisteriä tai patterin tehon tai koon mitoitusta.
+- ML/AI-arvio ei siirry laskentaan ilman asiantuntijan hyväksyntää (ADR-0005, Proposed).
 - Patterien sijoittelua ei toteuteta ennen huoneiden muodostusta, huonegeometrian validointia ja
   laskentarajapintojen suunnittelua (ks. ADDENDUM-0001 §10).
 

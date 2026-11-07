@@ -51,6 +51,12 @@ Vaatimukset tarkennetaan omiin dokumentteihinsa sitä mukaa kuin vastaavat teht�
 | FR-CALC-003 | Puuttuvia syötteitä ei korvata hiljaisesti oletusarvoilla | Must | Puuttuva syöte estää `Verified`-tilan; testattu | Not started | – |
 | FR-CALC-004 | Lämmitystehon tarve lasketaan lämpöhäviöstä erillisenä tuloksena | Must | Lämpöhäviö, tarve, valitun patterin teho ja sijoitus ovat erillisiä käsitteitä | Not started | – |
 | FR-CALC-005 | Sovellettavat suomalaiset säädökset ja standardit versioineen dokumentoidaan ennen vaatimustenmukaisuuslaskentaa | Must | Dokumentti hyväksytty käyttäjän toimesta | Not started | – |
+| FR-CALC-006 | Tuloilman lämpötila talvimitoitusolosuhteissa on parametri (projektin oletus +18 °C) ja ilmanvaihtolämpöhäviö lasketaan sen mukaan | Must | Laskenta käyttää parametria; muutos näkyy tuloksessa ja auditissa | Not started | – |
+| FR-CALC-007 | Tilakohtainen sisälämpötila käyttötarkoitusluokasta (oletus 21 °C oleskelutilat, 18 °C porrashuoneet ja varastot) | Must | Oletus valitaan luokasta; asiantuntija voi ohittaa tilakohtaisesti | Not started | – |
+| FR-CALC-008 | Asiantuntija voi muuttaa mitoitusarvoja jälkikäteen, ja muutoksesta tallennetaan kuka, milloin, vanha ja uusi arvo sekä perustelu | Must | Muutos käynnistää uudelleenlaskennan; vanha tulos säilyy auditissa | Not started | – |
+| FR-CALC-009 | Ilmavirrat mitoitetaan versioidusta sääntötaulukosta (tilatyyppi × sisäilmastoluokka S1/S2/S3), jonka arvoilla on lähdeviite (Talotekniikka-Info) | Must | Jokainen taulukon arvo jäljitettävissä lähteeseen; puuttuva sääntö → syötteet puutteelliset | Not started | – |
+| FR-CALC-010 | Syötearvoilla on lähdetyyppi (model, rule, project_default, expert, ml_estimate); ML-arvoa ei käytetä ilman asiantuntijan hyväksyntää (ADR-0005) | Must | Testi: ml_estimate ei pääse laskentaan hyväksymättä | Not started | – |
+| FR-CALC-011 | Lämpöhäviötuloksia verrataan MagiCAD Roomin tuloksiin testikohteissa osatekijöittäin | Should | Vertailuraportti; hyväksytyt poikkeamarajat omistajalta | Not started | – |
 
 ## Lämmityssuunnittelu (FR-HTG)
 
@@ -58,7 +64,9 @@ Vaatimukset tarkennetaan omiin dokumentteihinsa sitä mukaa kuin vastaavat teht�
 |---|---|---|---|---|---|
 | FR-HTG-001 | Huonekohtaiset patterien alustavat sijoitusehdotukset | Must | Ehdotukset validoidaan deterministisesti ennen näyttämistä | Not started | – |
 | FR-HTG-002 | Patterin mitoitusta ei väitetä oikeaksi ilman mitoituslämpötiloja, suoritusarvoja ja menetelmää | Must | Puuttuvat tiedot näkyvät varoituksena | Not started | – |
-| FR-HTG-003 | Patteriperheiden rekisteri | Should | Rekisteri on versioitu ja validoitu | Not started | – |
+| FR-HTG-003 | ~~Patteriperheiden rekisteri~~ → MagiCADin tuotekirjasto (ehdotus, ADR-0004) | – | – | Superseded (ehdotus) | – |
+| FR-HTG-004 | Lämmitystehon tarve viedään MagiCADin käyttämään tilan (Space) parametriin hyväksytysti | Must | Applied ja Verified erikseen; MagiCAD mitoittaa patterin arvon perusteella | Not started | – |
+| FR-HTG-005 | Patterin tuotevalinta ja mitoitus tehdään MagiCADissa, ei järjestelmässä | Must | Järjestelmä ei kirjoita patterin tehoa tai kokoa | Not started | – |
 
 ## AI (FR-AI)
 

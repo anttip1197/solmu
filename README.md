@@ -68,6 +68,7 @@ Muut tavoiterakenteen moduulit (ks. `CODEX_START.md` §5) luodaan vasta kun niil
 | [AGENTS.md](AGENTS.md) | Työskentelysäännöt |
 | [CODEX_START.md](CODEX_START.md) | Tarkoitus, periaatteet, alkuperäinen vaiheistus |
 | [ADDENDUM-0001](docs/requirements/ADDENDUM-0001-room-modeling-airflow-heat-loss.md) | Huonemallinnus, ilmavirrat, lämpöhäviöt |
+| [ADDENDUM-0002](docs/requirements/ADDENDUM-0002-magicad-heat-loss-airflow.md) | MagiCAD, mitoitusolosuhteet, ilmavirrat |
 | [Roadmap](docs/roadmap/roadmap.md) | Voimassa oleva tehtäväjärjestys |
 | [Vaatimusindeksi](docs/requirements/index.md) | Vaatimukset ja niiden tila |
 | [Arkkitehtuuri](docs/architecture/overview.md) | Yleiskuvaus |

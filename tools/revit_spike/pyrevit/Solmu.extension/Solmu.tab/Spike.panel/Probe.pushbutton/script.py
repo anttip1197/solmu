@@ -32,12 +32,14 @@ from Autodesk.Revit.DB import (
     WallFunction,
 )
 from Autodesk.Revit.DB.Architecture import Room
-from System import Enum, Environment, Guid
+from Autodesk.Revit.DB.Mechanical import Space
+from System import AppDomain, Enum, Environment, Guid
 from System.Diagnostics import Process, ProcessStartInfo
 from System.Runtime.InteropServices import RuntimeInformation
 from System.Text import UTF8Encoding
 
 MAX_ROOMS = 500
+PARAMETER_SAMPLE_COUNT = 10
 
 uiapp = __revit__  # noqa: F821  (injected by pyRevit)
 uidoc = uiapp.ActiveUIDocument
@@ -94,6 +96,68 @@ def read_room(room, options):
         }
     except Exception as exc:  # record, do not hide
         return {"element_id": eid(room.Id), "unique_id": room.UniqueId, "error": "%s: %s" % (type(exc).__name__, exc)}
+
+
+def read_parameters(element):
+    result = []
+    for p in element.Parameters:
+        guid = None
+        if p.IsShared:
+            try:
+                guid = str(p.GUID)
+            except Exception:
+                guid = None
+        value = None
+        if p.HasValue:
+            value = p.AsValueString() or p.AsString()
+        result.append({
+            "name": p.Definition.Name if p.Definition is not None else "?",
+            "storage_type": str(p.StorageType),
+            "is_shared": p.IsShared,
+            "shared_guid": guid,
+            "value_string": value,
+            "double_internal": p.AsDouble() if p.HasValue and str(p.StorageType) == "Double" else None,
+        })
+    return sorted(result, key=lambda r: r["name"])
+
+
+def read_space(space, include_parameters):
+    try:
+        name_param = space.get_Parameter(BuiltInParameter.ROOM_NAME)
+        return {
+            "element_id": eid(space.Id),
+            "unique_id": space.UniqueId,
+            "number": space.Number,
+            "name": name_param.AsString() if name_param is not None else None,
+            "level_name": space.Level.Name if space.Level is not None else None,
+            "room_id": eid(space.Room.Id) if space.Room is not None else None,
+            "is_placed": space.Location is not None,
+            "area_internal": space.Area,
+            "volume_internal": space.Volume,
+            "parameters": read_parameters(space) if include_parameters else None,
+            "error": None,
+        }
+    except Exception as exc:
+        return {"element_id": eid(space.Id), "unique_id": space.UniqueId, "error": "%s: %s" % (type(exc).__name__, exc)}
+
+
+def read_equipment(instance, phase):
+    space_id = None
+    try:
+        if phase is not None:
+            sp = instance.get_Space(phase)
+            space_id = eid(sp.Id) if sp is not None else None
+    except Exception:
+        space_id = None
+    type_element = doc.GetElement(instance.GetTypeId())
+    return {
+        "element_id": eid(instance.Id),
+        "family_name": instance.Symbol.FamilyName if instance.Symbol is not None else None,
+        "type_name": type_element.Name if type_element is not None else None,
+        "space_id": space_id,
+        "instance_parameters": read_parameters(instance),
+        "type_parameters": read_parameters(type_element) if type_element is not None else [],
+    }
 
 
 def read_window(window, phase, warnings):
@@ -204,8 +268,21 @@ def main():
     ]
     walls = list(FilteredElementCollector(doc).OfClass(Wall))
     exterior = len([w for w in walls if wall_function(w) == "Exterior"])
-    mech = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_MechanicalEquipment) \
-        .WhereElementIsNotElementType().GetElementCount()
+    equipment = list(FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_MechanicalEquipment)
+                     .WhereElementIsNotElementType())
+    mech = len(equipment)
+    equipment_samples = [read_equipment(e, phase) for e in equipment[:PARAMETER_SAMPLE_COUNT]]
+    all_spaces = [s for s in FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_MEPSpaces)
+                  .WhereElementIsNotElementType() if isinstance(s, Space)]
+    spaces = [read_space(s, i < PARAMETER_SAMPLE_COUNT) for i, s in enumerate(all_spaces[:MAX_ROOMS])]
+    if len(all_spaces) > MAX_ROOMS:
+        warnings.append("Only the first %d of %d spaces were read." % (MAX_ROOMS, len(all_spaces)))
+    magicad = []
+    for a in AppDomain.CurrentDomain.GetAssemblies():
+        n = a.GetName()
+        if n.Name is not None and "magicad" in n.Name.lower():
+            magicad.append({"name": n.Name, "version": str(n.Version) if n.Version is not None else None, "location": None})
+    magicad.sort(key=lambda x: x["name"])
     units = doc.GetUnits()
 
     report = {
@@ -222,6 +299,10 @@ def main():
         "area_display_unit": units.GetFormatOptions(SpecTypeId.Area).GetUnitTypeId().TypeId,
         "elapsed_milliseconds": int((time.time() - started) * 1000),
         "warnings": warnings,
+        "spaces_total": len(all_spaces),
+        "spaces": spaces,
+        "mechanical_equipment_samples": equipment_samples,
+        "magi_cad_assemblies": magicad,
     }
 
     out_dir = os.path.join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Solmu", "spike")
@@ -237,6 +318,7 @@ def main():
     print("Python engine: %s" % environment["python_engine"])
     print("Rooms in scope (%s): %d" % (scope, len(rooms_in_scope)))
     print("Windows: %d, walls: %d (exterior: %d), mechanical equipment: %d" % (len(windows), len(walls), exterior, mech))
+    print("MEP spaces: %d, MagiCAD assemblies loaded: %d" % (len(all_spaces), len(magicad)))
     print("Read time: %d ms" % report["elapsed_milliseconds"])
     print("Report: %s" % out_file)
     print("Python IPC: %s" % ipc)

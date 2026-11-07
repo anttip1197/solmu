@@ -17,6 +17,7 @@ using System.Text.Json;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.UI;
 using Solmu.Spike.Ipc;
 
@@ -27,6 +28,7 @@ namespace Solmu.Spike.RevitAddin;
 public sealed class ProbeCommand : IExternalCommand
 {
     private const int MaxRooms = 500;
+    private const int ParameterSampleCount = 10; // spaces / equipment whose parameters are dumped
 
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
@@ -86,12 +88,34 @@ public sealed class ProbeCommand : IExternalCommand
         var walls = new FilteredElementCollector(doc).OfClass(typeof(Wall)).Cast<Wall>().ToList();
         var exteriorWalls = walls.Count(w => WallFunctionOf(doc, w) == "Exterior");
 
-        // Radiators are commonly in Mechanical Equipment; this is only a count, the real
-        // radiator family registry is ROOM-001.
-        var mechanicalEquipment = new FilteredElementCollector(doc)
+        // Radiators (incl. MagiCAD radiators) are commonly Mechanical Equipment. Parameters of a
+        // few instances are dumped to learn how MagiCAD stores product data (ADR-0004).
+        var equipment = new FilteredElementCollector(doc)
             .OfCategory(BuiltInCategory.OST_MechanicalEquipment)
             .WhereElementIsNotElementType()
-            .GetElementCount();
+            .OfType<FamilyInstance>()
+            .ToList();
+        var mechanicalEquipment = equipment.Count;
+        var equipmentSamples = equipment.Take(ParameterSampleCount)
+            .Select(e => ReadEquipment(doc, e, phase)).ToList();
+
+        // MEP spaces: MagiCAD sizes radiators from the space heating demand.
+        var allSpaces = new FilteredElementCollector(doc)
+            .OfCategory(BuiltInCategory.OST_MEPSpaces)
+            .WhereElementIsNotElementType()
+            .OfType<Space>()
+            .ToList();
+        var spaces = allSpaces.Take(MaxRooms)
+            .Select((s, i) => ReadSpace(s, includeParameters: i < ParameterSampleCount)).ToList();
+        if (allSpaces.Count > MaxRooms)
+            warnings.Add($"Only the first {MaxRooms} of {allSpaces.Count} spaces were read.");
+
+        var magiCad = AppDomain.CurrentDomain.GetAssemblies()
+            .Select(a => a.GetName())
+            .Where(n => n.Name is not null && n.Name.Contains("magicad", StringComparison.OrdinalIgnoreCase))
+            .Select(n => new AssemblyInfo(n.Name!, n.Version?.ToString(), null))
+            .OrderBy(a => a.Name)
+            .ToList();
 
         var units = doc.GetUnits();
         var report = new ProbeReport(
@@ -99,7 +123,8 @@ public sealed class ProbeCommand : IExternalCommand
             walls.Count, exteriorWalls, mechanicalEquipment,
             units.GetFormatOptions(SpecTypeId.Length).GetUnitTypeId().TypeId,
             units.GetFormatOptions(SpecTypeId.Area).GetUnitTypeId().TypeId,
-            sw.ElapsedMilliseconds, warnings);
+            sw.ElapsedMilliseconds, warnings,
+            allSpaces.Count, spaces, equipmentSamples, magiCad);
 
         var outDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Solmu", "spike");
@@ -114,6 +139,8 @@ public sealed class ProbeCommand : IExternalCommand
             $"Rooms in scope ({scope}): {roomsInScope.Count}\n" +
             $"Windows: {windows.Count}, walls: {walls.Count} (exterior: {exteriorWalls})\n" +
             $"Mechanical equipment: {mechanicalEquipment}\n" +
+            $"MEP spaces: {allSpaces.Count}\n" +
+            $"MagiCAD assemblies loaded: {magiCad.Count}\n" +
             $"Read time: {report.ElapsedMilliseconds} ms\n\n" +
             $"Report: {outFile}\n\nPython IPC: {ipcSummary}");
         return Result.Succeeded;
@@ -159,6 +186,63 @@ public sealed class ProbeCommand : IExternalCommand
             return new RoomInfo(room.Id.Value, room.UniqueId, null, null, null, null, null, false,
                 0, null, 0, null, null, 0, [], $"{ex.GetType().Name}: {ex.Message}");
         }
+    }
+
+    private static SpaceInfo ReadSpace(Space space, bool includeParameters)
+    {
+        try
+        {
+            return new SpaceInfo(
+                space.Id.Value, space.UniqueId, space.Number,
+                space.get_Parameter(BuiltInParameter.ROOM_NAME)?.AsString(),
+                space.Level?.Name,
+                space.Room?.Id.Value,
+                space.Location is not null,
+                space.Area, space.Volume,
+                includeParameters ? ReadParameters(space) : null,
+                null);
+        }
+        catch (Exception ex)
+        {
+            return new SpaceInfo(space.Id.Value, space.UniqueId, null, null, null, null, false, 0, 0, null,
+                $"{ex.GetType().Name}: {ex.Message}");
+        }
+    }
+
+    private static EquipmentSample ReadEquipment(Document doc, FamilyInstance instance, Phase? phase)
+    {
+        long? spaceId = null;
+        try { spaceId = phase is null ? null : instance.get_Space(phase)?.Id.Value; }
+        catch (Exception) { /* reported as null */ }
+        var type = doc.GetElement(instance.GetTypeId());
+        return new EquipmentSample(
+            instance.Id.Value,
+            instance.Symbol?.FamilyName,
+            type?.Name,
+            spaceId,
+            ReadParameters(instance),
+            type is null ? [] : ReadParameters(type));
+    }
+
+    private static IReadOnlyList<ParameterInfo> ReadParameters(Element element)
+    {
+        var result = new List<ParameterInfo>();
+        foreach (Parameter p in element.Parameters)
+        {
+            string? guid = null;
+            if (p.IsShared)
+            {
+                try { guid = p.GUID.ToString(); } catch (Exception) { /* not shared after all */ }
+            }
+            result.Add(new ParameterInfo(
+                p.Definition?.Name ?? "?",
+                p.StorageType.ToString(),
+                p.IsShared,
+                guid,
+                p.HasValue ? p.AsValueString() ?? p.AsString() : null,
+                p.HasValue && p.StorageType == StorageType.Double ? p.AsDouble() : null));
+        }
+        return result.OrderBy(r => r.Name, StringComparer.Ordinal).ToList();
     }
 
     private static WindowInfo ReadWindow(Document doc, FamilyInstance window, Phase? phase, List<string> warnings)

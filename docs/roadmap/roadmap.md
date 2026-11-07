@@ -1,7 +1,7 @@
 # Roadmap
 
-Voimassa oleva tehtäväjärjestys. Lähteet: `CODEX_START.md` §11 ja
-`ADDENDUM-0001` §9 (addendum korvaa vaiheet 2→).
+Voimassa oleva tehtäväjärjestys. Lähteet: `CODEX_START.md` §11,
+`ADDENDUM-0001` §9 (korvaa vaiheet 2→) ja `ADDENDUM-0002` (MagiCAD; muutokset merkitty *ehdotus, ADR-0004*).
 
 Seuraavaan vaiheeseen ei siirrytä ennen edellisen vaiheen hyväksymiskriteerien täyttymistä.
 
@@ -61,20 +61,25 @@ flowchart TD
 | CALC-005 | Vaipan lämpötekniset ominaisuudet | Not started |
 | CALC-006 | Huonekohtainen lämpöhäviölaskenta | Not started |
 | CALC-007 | Lämmitystehon tarpeen laskenta | Not started |
-| CALC-008 | Laskennan validointi ja auditointi | Not started |
+| CALC-008 | Laskennan validointi ja auditointi, vertailu MagiCAD Roomin tuloksiin (ADDENDUM-0002 §7) | Not started |
 
 Edellytys CALC-004/CALC-006:lle: sovellettavat suomalaiset säädökset, standardit ja niiden
-versiot on dokumentoitu ja käyttäjän hyväksymät.
+versiot on dokumentoitu ja käyttäjän hyväksymät. CALC-003/004: ilmamäärät Talotekniikka-Infon
+ohjeista ja sisäilmastoluokasta S1–S3 (lähdetaulukko omistajalta). CALC-006: tuloilma +18 °C,
+sisälämpötilan oletukset 21 / 18 °C, asiantuntijan muutettavissa (ADDENDUM-0002 §3–4).
+ML:n rooli insinööriarvoissa: ADR-0005.
 
 ## Vaihe 4 – Patterisuunnittelu
 
 | ID | Tehtävä | Tila |
 |---|---|---|
-| ROOM-001 | Patteriperheiden rekisteri | Not started |
+| ~~ROOM-001~~ | ~~Patteriperheiden rekisteri~~ → korvautuu MagiCADin tuotekirjastolla (*ehdotus, ADR-0004*) | Superseded (ehdotus) |
+| MAG-001 | MagiCAD-integraation selvitys: rajapinta (2026 UR-2→), tilan tehontarveparametri, patterin vienti MagiCAD-tuotteena | Not started |
+| MAG-002 | Lämmitystehon tarpeen vienti MagiCADin tilaparametriin (hyväksytty muutos, Applied/Verified) | Not started |
 | ROOM-002 | Deterministiset sijoittelusäännöt | Not started |
 | ROOM-003 | AI-avusteinen sijoitusehdotus | Not started |
 | ROOM-004 | Visuaalinen esikatselu | Not started |
-| ROOM-005 | Hyväksytty Revit-mallin muutos | Not started |
+| ROOM-005 | Hyväksytty Revit-mallin muutos (patterin vientitapa MAG-001:n mukaan; mitoitus MagiCADissa) | Not started |
 | ROOM-006 | Käyttäjän hyväksymistestit | Not started |
 
 ## Myöhemmät vaiheet

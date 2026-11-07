@@ -76,5 +76,10 @@ static ProbeReport SyntheticReport(int roomCount)
         Error: null)).ToList();
 
     return new ProbeReport(env, "all", roomCount, false, rooms, [], 0, 0, 0,
-        "autodesk.unit.unit:millimeters-1.0.1", "autodesk.unit.unit:squareMeters-1.0.1", 0, []);
+        "autodesk.unit.unit:millimeters-1.0.1", "autodesk.unit.unit:squareMeters-1.0.1", 0, [],
+        SpacesTotal: 1,
+        Spaces: [new SpaceInfo(9001, Guid.NewGuid().ToString(), "101", "Makuuhuone", "1. krs", 1, true, 107.64, 290.6,
+            [new ParameterInfo("Lämmitysteho", "Double", true, Guid.NewGuid().ToString(), "650 W", 650.0)], null)],
+        MechanicalEquipmentSamples: [],
+        MagiCadAssemblies: []);
 }

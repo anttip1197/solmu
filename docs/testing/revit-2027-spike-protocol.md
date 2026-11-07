@@ -104,6 +104,27 @@ käyttöliittymästä: *pyRevit → Settings → Custom Extension Directories* �
 **P5 – Raportti:** vertaa `probe-pyrevit-*.json` C#-raporttiin. Huonemäärän, pinta-alojen ja
 tunnisteiden pitäisi olla samat.
 
+## M. MagiCAD for Revit (ADR-0004)
+
+Aja C4 mallilla, jossa on **MagiCAD-tiloja (Spaces) ja MagiCADilla sijoitettuja pattereita**, kun MagiCAD on ladattuna.
+
+**M1 – Yhteiselo:** latautuvatko MagiCAD ja Solmu-probe samaan aikaan ilman virheilmoituksia?
+Toimiiko MagiCAD normaalisti proben ajon jälkeen?
+
+**M2 – Tunnistus:** dialogin rivi *MagiCAD assemblies loaded* on suurempi kuin 0. Kirjaa raportin
+`magi_cad_assemblies`-listan nimet ja versiot.
+
+**M3 – Tilat:** dialogin *MEP spaces* -määrä vastaa mallia. Raportin `spaces`-listasta:
+- Mikä parametri sisältää MagiCADin käyttämän **lämmitystehon tarpeen**? Kirjaa parametrin nimi ja `shared_guid`.
+- Onko tiloissa MagiCADin ilmavirtaparametreja (tulo/poisto)? Kirjaa nimet.
+- Onko `room_id` täytetty, eli onko tila liitetty arkkitehdin huoneeseen?
+
+**M4 – Patterit:** raportin `mechanical_equipment_samples`-listasta MagiCAD-patterin osalta:
+- Mitkä parametrit sisältävät tuotekoodin, valmistajan, tehon ja mitoituslämpötilat?
+- Onko `space_id` täytetty?
+
+> Kirjaa tänne vain **parametrien nimet ja GUIDit**, ei asiakasmallin arvoja.
+
 ## Raportista tarkistettavat asiat (C6/P5)
 
 1. `room.name` vs. `room.element_name`: mitä kumpikin sisältää?
@@ -129,5 +150,10 @@ tunnisteiden pitäisi olla samat.
 | P2 laajennus | | |
 | P3–P4 ajo | | moottori / lukuaika / IPC |
 | P5 vertailu C#-raporttiin | | |
+| M1 MagiCAD + probe yhtä aikaa | | |
+| M2 MagiCAD-kirjastot tunnistettu | | nimet / versiot |
+| M3 tilan lämmitystehon tarpeen parametri | | nimi / GUID |
+| M3 tilan ilmavirtaparametrit | | nimet |
+| M4 MagiCAD-patterin tuoteparametrit | | nimet |
 
 Ajaja: ____________  Päivämäärä: ____________

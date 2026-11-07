@@ -49,6 +49,37 @@ public sealed record WindowInfo(
     long? FromRoomId,
     long? ToRoomId);
 
+public sealed record ParameterInfo(
+    string Name,
+    string StorageType,            // Double/Integer/String/ElementId/None
+    bool IsShared,
+    string? SharedGuid,            // shared parameters (e.g. MagiCAD) are identified by GUID
+    string? ValueString,           // AsValueString(): display units
+    double? DoubleInternal);       // AsDouble(): internal units
+
+public sealed record SpaceInfo(
+    long ElementId,
+    string UniqueId,
+    string? Number,
+    string? Name,
+    string? LevelName,
+    long? RoomId,                  // Space.Room: architectural room containing the space
+    bool IsPlaced,
+    double AreaInternal,
+    double VolumeInternal,
+    IReadOnlyList<ParameterInfo>? Parameters,  // only for the first few spaces
+    string? Error);
+
+public sealed record EquipmentSample(
+    long ElementId,
+    string? FamilyName,
+    string? TypeName,
+    long? SpaceId,                 // FamilyInstance.Space (last phase)
+    IReadOnlyList<ParameterInfo> InstanceParameters,
+    IReadOnlyList<ParameterInfo> TypeParameters);
+
+public sealed record AssemblyInfo(string Name, string? Version, string? Location);
+
 public sealed record ProbeReport(
     EnvironmentInfo Environment,
     string Scope,                  // "selection" | "all"
@@ -62,7 +93,11 @@ public sealed record ProbeReport(
     string LengthDisplayUnit,      // project display unit for length (ForgeTypeId)
     string AreaDisplayUnit,
     long ElapsedMilliseconds,
-    IReadOnlyList<string> Warnings);
+    IReadOnlyList<string> Warnings,
+    int SpacesTotal,
+    IReadOnlyList<SpaceInfo> Spaces,
+    IReadOnlyList<EquipmentSample> MechanicalEquipmentSamples,
+    IReadOnlyList<AssemblyInfo> MagiCadAssemblies);   // loaded assemblies whose name contains "magicad"
 
 public static class SpikeJson
 {
