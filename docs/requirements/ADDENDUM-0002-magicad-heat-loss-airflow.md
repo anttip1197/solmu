@@ -226,13 +226,13 @@ energialaskentaa varten, eikä sitä käytetä huonekohtaisessa mitoituksessa, e
 Φ = U · A · [ p · (θsisä − θmaa) + (1 − p) · (θsisä − θulko) ], jossa p on maanalainen osuus (0…1).
 - p on seinäkohtainen, muunneltava ja auditoitava. Oletus 0 %, eli seinä on kokonaan ulkoilmaa vasten.
 - Tulos näyttää maanalaisen ja maanpäällisen osan erikseen.
-- Avoin kysymys: käytetäänkö maanalaiselle osalle eri U-arvoa (esim. maata vasten olevan rakennusosan 0,16) vai seinän U-arvoa?
+- Maanalaiselle ja maanpäälliselle osalle käytetään **samaa seinän U-arvoa**; vain mitoituslämpötila vaihtuu (omistaja 2026-11-07).
 
 ## 10. Avoimet kysymykset omistajalle
 
 1. Sisäilmastoluokitus 2018: voitko toimittaa virallisen julkaisun tai RT-kortin S1/S2/S3-ilmavirtataulukot?
 2. ~~Ulkoseinän oletus-U-arvo~~ → **0,17 W/(m²K)** asetuksen 1010/2017 24 §:n mukaan (omistaja 2026-11-07).
-3. Kellarin seinän maanalaiselle osalle: seinän U-arvo vai maata vasten olevan rakennusosan U-arvo? *(avoin)*
+3. ~~Kellarin seinän maanalaisen osan U-arvo~~ → **seinän oma U-arvo**; U-arvo ei muutu maan alla, vain mitoituslämpötila (omistaja 2026-11-07).
 4. ~~Brutto- vai nettotilavuus~~ → **nettotilavuus** (omistaja 2026-11-07).
 5. ~~MagiCAD Room vertailuaineistona~~ → **voi käyttää** (omistaja 2026-11-07). Avoinna: mitkä kohteet, sekä
    aineiston säilytys ja käyttöoikeus (AGENTS.md §7: ei repositorioon).
