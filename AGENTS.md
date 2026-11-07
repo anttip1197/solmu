@@ -58,6 +58,7 @@ Taustadokumentit:
 - `heating_ai.domain` on puhdasta Pythonia: ei Revit-, pyRevit-, `clr`-, verkko-, tiedosto- tai
   AI-riippuvuuksia. Tämä varmistetaan testillä (`tests/unit/test_domain_isolation.py`).
 - Riippuvuuksien suunta: `adapters` → `application` → `domain`. `domain` ei tuo mitään muista kerroksista.
+- `tools/revit_spike/` on FND-002:n spike-koodia. Sitä ei laajenneta tuotantokoodiksi eikä tuoda `src/`-paketista.
 
 ## 5. Suunnittelu- ja laskentasäännöt
 

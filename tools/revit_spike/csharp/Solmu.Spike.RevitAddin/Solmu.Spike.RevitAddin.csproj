@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Revit 2027 read-only probe add-in (FND-002 spike).
+    Compiles against Revit 2027 reference assemblies from NuGet (Nice3point.Revit.Api.*),
+    so the build also works on a machine without Revit. The assemblies are NOT copied to
+    the output: at runtime Revit provides its own RevitAPI.dll / RevitAPIUI.dll.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <PlatformTarget>x64</PlatformTarget>
+    <RevitApiVersion>2027.3.0</RevitApiVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitApiVersion)" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitApiVersion)" ExcludeAssets="runtime" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Solmu.Spike.Ipc\Solmu.Spike.Ipc.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Solmu.Spike.addin" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

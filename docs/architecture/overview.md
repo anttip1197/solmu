@@ -1,7 +1,8 @@
 # Arkkitehtuurin yleiskuvaus
 
 > Tila: luonnos (FND-001). Perustuu [ADR-0001](../decisions/ADR-0001-modular-architecture.md) (Proposed).
-> Revit-integraatiotekniikka ja prosessien välinen viestintä ovat **avoimia** (FND-002).
+> Revit-integraatiotekniikka ja prosessien välinen viestintä: ehdotukset [ADR-0002](../decisions/ADR-0002-revit-integration-technology.md)
+> (C#/.NET 10 -lisäosa) ja [ADR-0003](../decisions/ADR-0003-process-boundary-ipc.md) (lapsiprosessi + JSON-rivit), molemmat **Proposed**.
 
 ## 1. Kokonaiskuva
 
@@ -9,7 +10,7 @@ Järjestelmä on **modulaarinen monoliitti**, joka koostuu kahdesta prosessista:
 
 ```mermaid
 flowchart LR
-    subgraph Revit["Revit 2027 -prosessi (tekniikka avoin, FND-002)"]
+    subgraph Revit["Revit 2027 -prosessi (ehdotus: C#/.NET 10 -lisäosa, ADR-0002)"]
         R1["Dokumentin ja elementtien luku"]
         R2["Yksikkömuunnokset"]
         R3["Hyväksyttyjen muutosten transaktiot"]
@@ -22,7 +23,7 @@ flowchart LR
         P4["AI-orkestrointi"]
         P5["auditointi"]
     end
-    Revit <-- "versioidut, serialisoitavat tietosopimukset\n(IPC-tekniikka avoin)" --> Py
+    Revit <-- "versioidut, serialisoitavat tietosopimukset\n(ehdotus: stdio JSON-rivit, ADR-0003)" --> Py
     P4 -. "hallittu, hyväksytty käytäntö" .-> AI["Ulkoinen AI-palvelu"]
 ```
 
@@ -76,4 +77,5 @@ Tilamallin toteutus on tehtävän FND-008 (ja GEO-/CALC-tehtävien) vastuulla.
 - `heating_ai.domain.identity`: `RoomId` (pysyvä sisäinen tunniste), `SourceType`, `SourceReference`
   (jäljitettävä viite lähdegeometriaan). Nämä toteuttavat ADDENDUM-0001 §1 periaatteen
   "stable internal identity and traceable relationship to its source geometry" perustason.
-- Ei Revit-, AI-, DXF- tai ML-toteutusta.
+- Ei tuotantotason Revit-, AI-, DXF- tai ML-toteutusta.
+- FND-002-spike (`tools/revit_spike/`): vain lukeva C#-lisäosa, pyRevit-probe ja CPython-stdio-palvelu. Spike-koodi ei ole tuotantokoodia.

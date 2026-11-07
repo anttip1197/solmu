@@ -3,8 +3,8 @@
 Tuotantokäyttöön tähtäävä, valvotun automaation suunnittelujärjestelmä Autodesk Revit 2027 -ympäristöön.
 Ensimmäinen käyttötapaus on vesikiertoisen patterilämmityksen huonekohtainen alustava suunnittelu.
 
-> **Tila:** Foundation-vaihe, FND-001 toteutettu. Revit-integraatiota ei ole vielä toteutettu eikä
-> Revit 2027 -yhteensopivuutta ole testattu. Järjestelmä ei tee lämpöhäviö-, ilmavirta- tai
+> **Tila:** Foundation-vaihe. FND-001 valmis. FND-002:n selvitys ja spike ovat valmiit, ja Revit 2027 -ajo
+> odottaa ([protokolla](docs/testing/revit-2027-spike-protocol.md)). Revit 2027 -yhteensopivuutta ei ole vielä testattu Revitissä. Järjestelmä ei tee lämpöhäviö-, ilmavirta- tai
 > mitoituslaskentaa eikä väitä säädösten täyttymistä.
 
 ## Periaatteet lyhyesti
@@ -47,12 +47,16 @@ python -m pytest
 │   ├── architecture/          # Arkkitehtuurin yleiskuvaus
 │   ├── decisions/             # ADR-päätökset
 │   ├── requirements/          # Vaatimusindeksi ja addendumit
+│   ├── research/              # Selvitykset (FND-002)
 │   ├── roadmap/               # Tehtäväjärjestys
-│   └── testing/               # Testausstrategia
+│   └── testing/               # Testausstrategia ja Revit-testiprotokollat
 ├── src/heating_ai/
 │   └── domain/                # Puhdas domain-malli (ei Revit-riippuvuuksia)
-└── tests/
-    └── unit/
+├── tests/
+│   ├── unit/
+│   └── integration/           # Aliprosessi- ja IPC-testit (ei Revitiä)
+└── tools/
+    └── revit_spike/           # FND-002 spike: C#-lisäosa, pyRevit-probe, Python-palvelu
 ```
 
 Muut tavoiterakenteen moduulit (ks. `CODEX_START.md` §5) luodaan vasta kun niille on sisältöä.
@@ -69,7 +73,11 @@ Muut tavoiterakenteen moduulit (ks. `CODEX_START.md` §5) luodaan vasta kun niil
 | [Arkkitehtuuri](docs/architecture/overview.md) | Yleiskuvaus |
 | [ADR-hakemisto](docs/decisions/README.md) | Tekniset päätökset |
 | [Testausstrategia](docs/testing/strategy.md) | Testauksen periaatteet |
+| [FND-002-selvitys](docs/research/FND-002-revit-2027-compatibility.md) | Revit 2027, pyRevit, .NET 10, IPC |
+| [Revit 2027 -testiprotokolla](docs/testing/revit-2027-spike-protocol.md) | Ajettava Revitissä |
 
 ## Seuraava tehtävä
 
-**FND-002 – Revit 2027 -yhteensopivuusselvitys** (ks. [roadmap](docs/roadmap/roadmap.md)).
+1. **FND-002:n Revit 2027 -ajo**: projektin omistaja ajaa [testiprotokollan](docs/testing/revit-2027-spike-protocol.md).
+2. Päätös ADR-0002:sta ja ADR-0003:sta.
+3. Sen jälkeen **FND-003** (Python-ympäristö ja prosessiraja). FND-004 (CI) ei riipu FND-002:sta.

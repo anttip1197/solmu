@@ -8,10 +8,12 @@
 |---|---|---|---|
 | Yksikkötestit | `tests/unit/` | Ei | Käytössä |
 | Sopimustestit (tietosopimusten validointi ja serialisointi) | `tests/contract/` | Ei | FND-005 |
-| Integraatiotestit (Python-puoli) | `tests/integration/` | Ei | Myöhemmin |
-| Revit-integraatiotestit | dokumentoidaan erikseen | **Kyllä** | FND-002/FND-007 |
+| Integraatiotestit (Python-puoli, aliprosessit, C#-harness) | `tests/integration/` | Ei | Käytössä (FND-002) |
+| Revit-integraatiotestit | [revit-2027-spike-protocol.md](revit-2027-spike-protocol.md) | **Kyllä** | FND-002: protokolla valmis, ajo odottaa; FND-007 |
 
 Hakemistot luodaan vasta kun niihin tulee testejä.
+
+C#-harness-testi (`tests/integration/test_csharp_ipc_harness.py`) ohitetaan automaattisesti, jos .NET SDK puuttuu.
 
 ## Periaatteet
 

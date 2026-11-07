@@ -25,12 +25,12 @@ Vaatimukset tarkennetaan omiin dokumentteihinsa sitä mukaa kuin vastaavat teht�
 
 | ID | Kuvaus | Prio | Hyväksymiskriteeri | Tila | Testi |
 |---|---|---|---|---|---|
-| FR-REV-001 | Huoneiden tunnisteiden, tasojen ja geometrian lukeminen Revit 2027 -mallista | Must | Valituista huoneista saadaan sopimuksen mukainen serialisoitu kuvaus; testattu Revit 2027:ssä | Not started | – |
+| FR-REV-001 | Huoneiden tunnisteiden, tasojen ja geometrian lukeminen Revit 2027 -mallista | Must | Valituista huoneista saadaan sopimuksen mukainen serialisoitu kuvaus; testattu Revit 2027:ssä | Not started (spike-probe olemassa, ei ajettu Revitissä) | `docs/testing/revit-2027-spike-protocol.md` |
 | FR-REV-002 | Ikkunoiden, ulkoseinien ja olemassa olevien patterien lukeminen | Must | Huoneeseen liittyvät elementit tunnistetaan ja serialisoidaan | Not started | – |
 | FR-REV-003 | Revit-yksiköiden muunnos eksplisiittisiin SI-yksiköihin | Must | Muunnokset testattu tunnetuilla arvoilla | Not started | – |
 | FR-REV-004 | Vain hyväksyttyjen muutosten vienti malliin hallitussa transaktiossa | Must | Ilman hyväksyntää muutosta ei voi suorittaa; transaktio perutaan virheessä | Not started | – |
 | FR-REV-005 | Muutoksen tuloksen tarkastus (`Verified` erillään `Applied`-tilasta) | Must | Toteutus luetaan takaisin ja verrataan hyväksyttyyn ehdotukseen | Not started | – |
-| FR-REV-006 | Revit API -olioita ei siirretä prosessien välillä | Must | Rajapinnan tietosopimukset ovat serialisoitavia; sopimustestit | Not started | – |
+| FR-REV-006 | Revit API -olioita ei siirretä prosessien välillä | Must | Rajapinnan tietosopimukset ovat serialisoitavia; sopimustestit | In progress (spike: serialisoitavat DTO:t + stdio, ADR-0003) | `tests/integration/test_revit_spike_service.py`, `tests/integration/test_csharp_ipc_harness.py` |
 
 ## Geometria ja huoneet (FR-GEO, ehdotettu etuliite)
 

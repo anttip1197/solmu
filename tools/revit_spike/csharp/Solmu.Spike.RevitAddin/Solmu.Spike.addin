@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  FND-002 spike manifest. Install PER USER for testing:
+    %APPDATA%\Autodesk\Revit\Addins\2027\Solmu.Spike.addin
+  and set <Assembly> to the absolute path of the built Solmu.Spike.RevitAddin.dll.
+  The add-in is unsigned: Revit will show a security prompt ("Load once" is enough for the spike).
+-->
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Name>Solmu FND-002 Probe</Name>
+    <Text>Solmu probe (read-only)</Text>
+    <Description>Read-only Revit 2027 compatibility probe. Modifies nothing.</Description>
+    <Assembly>REPLACE_WITH_ABSOLUTE_PATH\Solmu.Spike.RevitAddin.dll</Assembly>
+    <FullClassName>Solmu.Spike.RevitAddin.ProbeCommand</FullClassName>
+    <ClientId>6b0e6f3e-7a0c-4d33-9d55-2f1f0d8f5a01</ClientId>
+    <VendorId>SOLMU</VendorId>
+    <VendorDescription>Solmu project spike</VendorDescription>
+  </AddIn>
+</RevitAddIns>
