@@ -4,6 +4,7 @@
   Agentin tulkinnat ja ehdotukset on merkitty erikseen (**Ehdotus**).
 - **Suhde:** täydentää `CODEX_START.md`:tä ja ADDENDUM-0001:tä. Ristiriitatilanteessa tämä addendum on voimassa,
   kun projektin omistaja on hyväksynyt ehdotetut kohdat (ADR-0004, ADR-0005).
+- **Päivitetty:** 2026-11-07, omistajan vastaukset §8.
 
 ## 1. Nykyinen työnkulku (omistajan ilmoitus)
 
@@ -80,12 +81,82 @@ Omistajan tavoite on, että ML voi tuottaa ilmamäärän. ADDENDUM-0001 §5 kiel
 syötteillä valituissa testikohteissa. Poikkeamat raportoidaan osatekijöittäin (seinät, ikkunat,
 ilmanvaihto ym.). Vertailuaineiston käyttöoikeus ja säilytys dokumentoidaan (AGENTS.md §7).
 
-## 8. Avoimet kysymykset omistajalle
+## 8. Omistajan vastaukset 2026-11-07 (täydennys)
 
-1. Mitä Talotekniikka-Infon ohjeita ja mitä versioita ilmamäärien mitoitukseen käytetään?
-2. Määräytyykö sisäilmastoluokka projektikohtaisesti, vai voiko se vaihdella tiloittain?
-3. Mitä laskentamenetelmää ja mitoittavaa ulkolämpötilaa MagiCAD Roomissa nyt käytetään?
-4. Lasketaanko vuotoilma (infiltraatio) erikseen? Millä oletuksilla?
-5. Mitkä muut tilatyypit kuin oleskelutilat, porrashuoneet ja varastot tarvitsevat oman sisälämpötilan
-   (esim. kylpyhuoneet, saunat, tekniset tilat)?
+### 8.1 Ilmavirtojen lähdeohjeet
+
+| Ohje | Julkaisija | Päiväys | Perusta |
+|---|---|---|---|
+| Opas asuinrakennusten ilmanvaihdon mitoitukseen | FINVAC ry (SuLVI, VSF, Sisäilmayhdistys, LIY) | 30.11.2017 | YM:n asetusluonnos 16.2.2017 |
+| Opas ilmanvaihdon mitoitukseen muissa kuin asuinrakennuksissa | FINVAC ry + RTY, Talteka | 30.11.2019 | YM:n asetus 1009/2017 |
+
+Lähde: talotekniikkainfo.fi (omistajan antamat linkit). Ohjeita ei tallenneta repositorioon (tekijänoikeus).
+Agentti on lukenut molemmat. Havaintoja, jotka vaikuttavat tietomalliin (CALC-001):
+- Ilmavirran peruste vaihtelee: per henkilö (dm³/s,hlö), per pinta-ala (dm³/s,m²), per huone tai asunto
+  (dm³/s), per laite (WC-istuin, suihku), per paikka (katsomo, luentosali) ja ilmanvaihtokerroin (1/h, porrashuone).
+  → Sääntötaulukon on tuettava useita perusteita samalle tilatyypille.
+- Muissa kuin asuinrakennuksissa: *"Ulkoilmavirta määräytyy ensisijaisesti henkilöperusteen mukaan. Jos
+  henkilömäärää ei ole suunnitteluvaiheessa luotettavasti määritettävissä, käytetään huonekohtaista,
+  pinta-alaan, laitteiden tai kalusteiden määrään perustuvaa mitoitusta"* ja *"Ulkoilmavirta mitoitetaan
+  suurimpaan ilmavirtaan johtavan kriteerin mukaan"* (opas 2019, luvut 1 ja 3).
+- Asuinrakennuksissa mitoitus on **asuntotasoinen**: koko asunnon vähimmäisilmavirta (pinta-ala-, huonemäärä-
+  ja vähimmäisehdot sekä saunan lisäys) jaetaan huoneisiin, ja huonekohtaisia arvoja suurennetaan tasapainon
+  saavuttamiseksi (opas 2017, luvut 2–3). → Huonetason sääntö ei yksin riitä; tarvitaan asuntotaso.
+- Asuinrakennusopas 2017 perustuu asetusluonnokseen. Muiden rakennusten opas (2019) viittaa
+  asuinrakennusoppaan **vuoden 2019** versioon. → Avoin kysymys 1.
+- **S1/S2/S3-luokkia ei ole näissä oppaissa.** Ne ovat Sisäilmastoluokitus 2018:sta (Sisäilmayhdistys). → Avoin kysymys 2.
+
+### 8.2 Ilmavirran valintasääntö (omistaja)
+
+1. Valitaan aina **suurin** ilmavirta: jos ohjeen ilmavirta on pienempi kuin valitun S-luokan, käytetään S-luokan arvoa.
+2. Jos S-luokassa on sekä pinta-ala- että henkilöperuste: tarkistetaan arkkitehtikuvasta, onko henkilömäärä
+   merkitty. Jos ei ole, mitoitetaan pinta-alan mukaan. Jos on, lasketaan molemmat ja valitaan suurempi.
+3. Sisäilmastoluokka valitaan **projektikohtaisesti**.
+4. Kaikki valinnat ja tulokset ovat asiantuntijan muutettavissa.
+
+**Ehdotus:** tulos näyttää jokaisen tarkastellun perusteen arvon (ohje/pinta-ala, ohje/henkilö, S-luokka/pinta-ala,
+S-luokka/henkilö ym.) ja merkitsee, mikä niistä on mitoittava. Henkilömäärän lähde on `model` (luettu kuvasta),
+`expert` tai puuttuva. Tekoälyn tulkitsema henkilömäärä on `ai_estimate` (ADR-0005).
+
+### 8.3 Mitoitusolosuhteet ja rakenteet (omistaja)
+
+| Suure | Oletus | Muunneltavuus |
+|---|---|---|
+| Ulkoilman mitoituslämpötila | **−26 °C** | Muunneltava. **Kysytään aina** projektin alussa |
+| U-arvot | Uudisrakennukselle tyypilliset | Muunneltava (projekti, rakennetyyppi, yksittäinen rakenne) |
+| Vuotoilma, nurkkahuone ulkovaipalla | **0,1** | Muunneltava |
+| Vuotoilma, ulkovaipan keskiosan huone | **0,05** | Muunneltava |
+| Vuotoilma, rakennuksen keskellä oleva huone | **0** | Muunneltava |
+| Sisälämpötila, kylpyhuone | **+21 °C** | Muunneltava |
+| Sisälämpötila, sauna | **+21 °C** | Muunneltava |
+| Sisälämpötila, tekniset tilat | **+18 °C** | Muunneltava |
+
+**Ehdotukset, jotka omistajan pitää vahvistaa:**
+- "Kysytään aina": laskenta ei käynnisty ennen kuin käyttäjä on vahvistanut ulkolämpötilan projektille.
+  Vahvistus tallennetaan (kuka, milloin, arvo). Oletus −26 °C esitäytetään, mutta sitä ei hyväksytä hiljaisesti.
+- Vuotoilman **yksikön** tulkinta on ilmanvaihtokerroin **1/h** (huoneen tilavuudesta). Vahvistettava.
+- Huoneen sijainnin luokittelu deterministisesti geometriasta:
+  *nurkkahuone* = ulkoseiniä vähintään kahdessa eri suunnassa; *ulkovaipan keskiosa* = ulkoseinää yhdessä
+  suunnassa; *keskellä* = ei ulkoseinää. Luokka näytetään käyttäjälle, ja sen voi ohittaa.
+- "Uudisrakennukselle tyypilliset U-arvot": agentti ei kirjoita arvoja muistinvaraisesti. Omistaja toimittaa
+  arvot ja niiden lähteen (esim. energiatehokkuusasetuksen vertailuarvot, jos niitä tarkoitetaan).
+
+## 9. Avoimet kysymykset omistajalle
+
+1. Käytetäänkö asuinrakennuksille FINVACin 2017-oppaan ohella tai sijaan sen 2019-versiota?
+2. Sisäilmastoluokitus 2018: saako agentti hakea julkaisun (sisailmayhdistys.fi), vai toimitatko S1/S2/S3-ilmavirtataulukot?
+3. Mitkä ovat "uudisrakennukselle tyypilliset" U-arvot rakenteittain (ulkoseinä, yläpohja, alapohja/maanvarainen, ikkuna, ulko-ovi) ja niiden lähde?
+4. Onko vuotoilman yksikkö 1/h, ja lasketaanko se huoneen nettotilavuudesta?
+5. Lasketaanko maanvastaisen alapohjan lämpöhäviö erillisellä menetelmällä (maan lämpötila), ja millä oletuksilla?
 6. Voiko MagiCAD Roomin tuloksia käyttää vertailuaineistona, ja millaisista kohteista?
+
+## 10. Aiemmat avoimet kysymykset (vastattu)
+
+Vastaukset §8:ssa. Alkuperäiset kysymykset säilytetään jäljitettävyyden vuoksi:
+
+1. Talotekniikka-Infon ohjeet → §8.1
+2. Sisäilmastoluokka projektikohtainen vai tilakohtainen → projektikohtainen (§8.2)
+3. Laskentamenetelmä ja ulkolämpötila → −26 °C oletus (§8.3); menetelmä edelleen avoin
+4. Vuotoilma → §8.3
+5. Muiden tilatyyppien sisälämpötilat → §8.3
+6. MagiCAD Room vertailuaineistona → edelleen avoin (§9 kysymys 6)

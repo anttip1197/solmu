@@ -64,9 +64,11 @@ flowchart TD
 | CALC-008 | Laskennan validointi ja auditointi, vertailu MagiCAD Roomin tuloksiin (ADDENDUM-0002 §7) | Not started |
 
 Edellytys CALC-004/CALC-006:lle: sovellettavat suomalaiset säädökset, standardit ja niiden
-versiot on dokumentoitu ja käyttäjän hyväksymät. CALC-003/004: ilmamäärät Talotekniikka-Infon
-ohjeista ja sisäilmastoluokasta S1–S3 (lähdetaulukko omistajalta). CALC-006: tuloilma +18 °C,
-sisälämpötilan oletukset 21 / 18 °C, asiantuntijan muutettavissa (ADDENDUM-0002 §3–4).
+versiot on dokumentoitu ja käyttäjän hyväksymät. CALC-003/004: ilmamäärät FINVAC-oppaista
+(2017 asuin, 2019 muut) ja projektin sisäilmastoluokasta S1–S3 (Sisäilmastoluokitus 2018), suurin peruste
+mitoittaa, asuinrakennuksissa myös asuntotaso. CALC-005/006: ulkolämpötila −26 °C (vahvistetaan aina),
+tuloilma +18 °C, sisälämpötilat 21 / 18 °C, vuotoilma huoneen sijainnin mukaan, U-arvo-oletukset;
+kaikki asiantuntijan muutettavissa (ADDENDUM-0002 §3 ja §8).
 ML:n rooli insinööriarvoissa: ADR-0005.
 
 ## Vaihe 4 – Patterisuunnittelu

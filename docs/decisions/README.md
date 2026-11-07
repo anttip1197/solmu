@@ -20,7 +20,7 @@ Vain projektin omistaja voi muuttaa tilan `Accepted`-tilaan. Pohja: [ADR-TEMPLAT
 | Python-ajoympäristön jakelu käyttäjän koneelle | FND-003 | Ei aloitettu |
 | Lisäosan allekirjoitusvarmenne ja all-users-asennus | ennen tuotantoasennusta | Ei aloitettu |
 | Tietosopimusten skeema- ja validointitekniikka | FND-005 | Ei aloitettu |
-| Lämpöhäviön laskentamenetelmä, ulkoilman mitoituslämpötilat, ilmamäärätaulukot (Talotekniikka-Info, S1–S3) | ennen CALC-004/006 | Odottaa omistajan lähdeaineistoa (ADDENDUM-0002 §8) |
+| Lämpöhäviön laskentamenetelmä, U-arvo-oletukset, vuotoilman yksikkö, Sisäilmastoluokitus 2018 -taulukot | ennen CALC-004/006 | FINVAC-oppaat saatu; muut odottavat omistajaa (ADDENDUM-0002 §9) |
 | Patterin vientitapa malliin MagiCAD-tuotteena | MAG-001 | Ei aloitettu |
 | Sovellettavat suomalaiset säädökset, standardit ja laskentamenetelmät versioineen | ennen CALC-004/006 | Ei aloitettu |
 | Ulkoisen AI-palvelun käyttö- ja aineistokäytäntö | ennen FR-AI-toteutusta | Ei aloitettu |
