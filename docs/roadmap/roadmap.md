@@ -65,8 +65,9 @@ flowchart TD
 
 Edellytys CALC-004/CALC-006:lle: sovellettavat suomalaiset säädökset, standardit ja niiden
 versiot on dokumentoitu ja käyttäjän hyväksymät. CALC-003/004: ilmamäärät FINVAC-oppaista
-(2017 asuin, 2019 muut) ja projektin sisäilmastoluokasta S1–S3 (Sisäilmastoluokitus 2018), suurin peruste
-mitoittaa, asuinrakennuksissa myös asuntotaso. CALC-005/006: ulkolämpötila −26 °C (vahvistetaan aina),
+(2019 asuin, 2019 korj. 28.1.2020 muut; aina uusin versio) ja projektin sisäilmastoluokasta S1–S3 (Sisäilmastoluokitus 2018), suurin peruste
+mitoittaa, asuinrakennuksissa myös asuntotaso. CALC-005/006: ulkolämpötila −26 °C (vahvistetaan aina), maa +5 °C ja osittain maanalaiset seinät (%),
+U-arvo-oletukset YM 1010/2017 24 §,
 tuloilma +18 °C, sisälämpötilat 21 / 18 °C, vuotoilma huoneen sijainnin mukaan, U-arvo-oletukset;
 kaikki asiantuntijan muutettavissa (ADDENDUM-0002 §3 ja §8).
 ML:n rooli insinööriarvoissa: ADR-0005.
