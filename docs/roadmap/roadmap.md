@@ -31,7 +31,7 @@ flowchart TD
 | FND-001 | Repository ja projektin säännöt | – | Done |
 | FND-002 | Revit 2027 -yhteensopivuusselvitys (pyRevit, Python-ajoympäristö, Revit API, C#/.NET 10, IPC) → ADR | FND-001 | **In progress**: selvitys, spike ja ADR-0002/0003 (Proposed) valmiit; odottaa Revit 2027 -ajoa ([protokolla](../testing/revit-2027-spike-protocol.md)) |
 | FND-003 | Python-ympäristö ja riippuvuuksien erottelu (prosessiraja) | FND-002 | Not started |
-| FND-004 | CI ja testausrunko | FND-001 | In progress: toteutettu; odottaa vihreää CI-ajoa GitHubissa |
+| FND-004 | CI ja testausrunko | FND-001 | Done: CI-ajo #1 vihreä 2026-11-07 (5/5 jobia, Ubuntu+Windows × Python 3.12/3.13) |
 | FND-005 | Tietomallit ja rajapintasopimukset | FND-003, FND-004 | Not started |
 | FND-006 | Konfiguraatio, lokitus ja virhekoodit | FND-005 | Not started |
 | FND-007 | Revitin read-only-adapteri | FND-005 | Not started |
