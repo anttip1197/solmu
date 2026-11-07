@@ -167,6 +167,15 @@ Agentti ei käytä epävirallisia kopioita (esim. kalvosarjoja tai opinnäytetö
 S1/S2/S3-ilmavirtojen lukuarvot otetaan virallisesta julkaisusta, jonka omistaja toimittaa (oma RT-kortisto- tai
 julkaisulisenssi). Repositorioon tallennetaan vain tarvittavat lukuarvot lähdeviitteineen.
 
+**Päivitys 2026-11-07:** omistaja toimitti RT-kortin *RT 07-11299 Sisäilmastoluokitus 2018*. Kortin jokaisella
+sivulla on käyttöehto, joka kieltää julkaisun tai sen osien kopioinnin, jakamisen, välittämisen, muuntelun ja
+lataamisen tekoälysovelluksiin. Siksi:
+- Kortin sisältöä tai lukuarvoja **ei tallenneta repositorioon** eikä agentti käytä niitä.
+- Agentti poisti työkopionsa kortista.
+- Avoin päätös (omistaja): käyttöoikeus selvitetään Rakennustiedon kanssa, tai S-luokkataulukko syötetään
+  ohjelmistoon käyttäjän toimesta paikallisena, lisensoituna konfiguraationa. Repositoriossa on silloin vain
+  taulukon rakenne (skeema) ja synteettiset testiarvot.
+
 ### 9.3 U-arvojen oletukset: tarkistus lähteestä
 
 Omistajan muistama: yläpohja 0,09, ulkoseinä 0,16, alapohja 0,16, ikkuna 1,0 W/(m²K).
